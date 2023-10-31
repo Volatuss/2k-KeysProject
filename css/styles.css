@@ -4274,6 +4274,10 @@ textarea.form-control-lg {
 .card-img-top,
 .card-img-bottom {
   width: 100%;
+  height: 200px;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
 }
 
 .card-img,
@@ -10823,4 +10827,38 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+
+/* Apply background color and padding to the header */
+.product-header {
+  background-color: #333;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Style the product image */
+#product-banner {
+  max-width: 100%;
+}
+
+/* Center align and style product details */
+.product-main {
+  text-align: center;
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  font-size: 16px;
+  color: #555;
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
 }
