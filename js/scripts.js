@@ -7,11 +7,11 @@
 document.addEventListener("DOMContentLoaded", function () {
 	// Get Reference to the Product Container, which will hold all the items
 	const productContainer = document.getElementById("product-container");
-	const filterSelect = document.getElementById("filter-select");
+	const filterSelect = document.getElementById("filter");
 	// Get the product ID from the URL query parameter
 	const urlParams = new URLSearchParams(window.location.search);
 	const productId = urlParams.get("id");
-
+	
 	// Fetch the product data from the database Once we have a db
 	// Temporary data here for testing
 	const data = [
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$20.00",
 			"salePrice": "",
 			"image": "winKeyImg.jpg",
-			"tags": ["microsoft product", "operating system"]
+			"tags": ["microsoft", "OS"]
 		},
 		{
 			"id": "2",
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$34.00",
 			"salePrice": "",
 			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world"]
+			"tags": ["game", "rpg", "open world", "PC"]
 			
 		},
 		{
@@ -38,11 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$38.00",
 			"salePrice": "$29.99",
 			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "pc", "sale"]
+			"tags": ["game", "rpg", "open world", "sale"]
 			
 		},
 	];
 
+	
 	// Temporary loading of data till we have DB
 	data.forEach((product) => {
 		const card = createProductCard(product);
@@ -55,11 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Create a new element for the product card
 		const cardDiv = document.createElement("div");
 		cardDiv.className = "col mb-5"
-
-
-		
+	
 		// Check if there is a sale
 		const hasSalePrice = product.salePrice !== "";
+		realPrice = parseFloat(product.price.replace("$", "").split(" - ")[0]);
 
 		// Calculate the sale percentage
 		let salePercentage = "";
@@ -68,19 +68,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			const salePrice = parseFloat(product.salePrice.replace("$", ""));
 			const discount = regularPrice - salePrice;
 			salePercentage = `${((discount / regularPrice) * 100).toFixed(0)}% Off!`;
+			realPrice-=discount;
 		}
 		// Populate the card with product data
+		
 		cardDiv.innerHTML = `
-			<div class="card h-100">
+			<div class="card h-100",id="${product.id}" data-categories="${product.tags.join(" ")}", data-price="${realPrice}">
 				<img class="card-img-top" src="assets/${product.image}" alt="Product Image" />
 				<div class="card-body p-4">
 					<div class="text-center">
 						<h5 class="fw-bolder">${product.name}</h5>
 						<p>
-                        	${hasSalePrice
-                            	? `<del>${product.price}</del> ${product.salePrice}`
-                            	: product.price}
-                    	</p>
+							${hasSalePrice
+								? `<del>${product.price}</del> ${product.salePrice}`
+								: product.price}
+						</p>
 						${hasSalePrice ? `<p class="text-danger">${salePercentage}</p>` : ""}
 					</div>
 				</div>
@@ -95,19 +97,93 @@ document.addEventListener("DOMContentLoaded", function () {
 		return cardDiv;
 	}
 	
-	filterSelect.addEventListener("change", function () {
-		const selectedTag = filterSelect.value;
-		
-		productContainer.querySelectorAll(".card").forEach((card) => {
-			const cardTags = card.getAttribute("data-tags").split(" ");
-			if(selectedTag === "all" || cardTags.includes(selectedTag)) {
-				card.style.display = "block";
-			} else {
-				card.style.display = "none";
-			}
+	const sortSelect = document.getElementById("sort-select");
+	sortSelect.addEventListener("change", function () {
+	  filterProducts();
+	});
+
+	// Get reference to the filter checkboxes
+	const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+	const priceCheckboxes = document.querySelectorAll('input[name="price"]');
+
+	// Event listener for category checkboxes
+	categoryCheckboxes.forEach((checkbox) => {
+		checkbox.addEventListener("change", function () {
+			filterProducts();
 		});
 	});
 
+	// Event listener for price checkboxes
+	priceCheckboxes.forEach((checkbox) => {
+		checkbox.addEventListener("change", function () {
+			filterProducts();
+		});
+	});
 
+	const allCards = productContainer.querySelectorAll(".card");
+
+	// Function to filter products based on selected checkboxes
+	function filterProducts() {
+		// Get the selected category filters
+		const selectedCategories = Array.from(categoryCheckboxes)
+			.filter((checkbox) => checkbox.checked)
+			.map((checkbox) => checkbox.value);
+
+		// Get the selected price filters
+		const selectedPrices = Array.from(priceCheckboxes)
+			.filter((checkbox) => checkbox.checked)
+			.map((checkbox) => parseFloat(checkbox.value));
+
+		// Function to check if a product card matches the selected filters
+		function productMatchesFilters(card) {
+			const cardCategoriesAttribute = card.getAttribute("data-categories");
+			if (!cardCategoriesAttribute) {
+				// Handle the case where data-categories is missing or empty
+				return selectedCategories.length === 0;
+			}
+			
+			const cardCategories = cardCategoriesAttribute.split(" ");
+			const cardPrice = parseFloat(card.getAttribute("data-price"));
+			
+			const categoryFilterMatch = selectedCategories.length === 0 || selectedCategories.every((category) => cardCategories.includes(category));
+			const priceFilterMatch = selectedPrices.length === 0 || selectedPrices.some((price) => cardPrice <= price );
+		
+			return categoryFilterMatch && priceFilterMatch;
+		}
+		
+		const sortOption = sortSelect.value;
+		
+		const visibleCards = [];
+		const hiddenCards=[];
+
+		// Apply the filters to each product card
+		allCards.forEach((card) => {
+			if (productMatchesFilters(card)) {
+				if (hiddenCards.includes(card)){
+					visibleCards.push(hiddenCards.pop(card))
+
+				} else {
+					visibleCards.push(card);
+				}
+			} else {
+				hiddenCards.push(card);
+			}
+		});
+		
+	
+		// Append the visible to the container and remove the hidden cards. Currently has an append as im trying to figure out null conditions
+		visibleCards.forEach((card) => {
+			productContainer.appendChild(card);
+		});
+		hiddenCards.forEach((card) => {
+			productContainer.appendChild(card);
+			productContainer.removeChild(card);		
+		});
+	}
+
+
+	// Initial filter when the page loads; its empty
+	filterProducts();
+	
 
 });

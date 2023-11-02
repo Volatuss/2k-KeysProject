@@ -10839,16 +10839,22 @@ textarea.form-control-lg {
 /* Style the product image */
 #product-banner {
   max-width: 100%;
+  height: 400px;
+  overflow: hidden;
+  object-fit: contain;
+  object-position: center;
+  
 }
 
 /* Center align and style product details */
 .product-main {
-  text-align: center;
+  text-align: left;
   padding: 20px;
+  margin-left: 100px;
 }
 
 .product-name {
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -10861,4 +10867,60 @@ textarea.form-control-lg {
 .product-price {
   font-size: 20px;
   font-weight: bold;
+}
+
+.filters {
+  float: left;
+  width: 20%;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.filters h3 {
+  margin-bottom: 10px;
+}
+
+.filters label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center; /* Vertically align the items */
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 65%;
+  display: flex;
+  align-items: center; /* Vertically align the search input and button */
+}
+
+.sort-container {
+  margin-left: auto; /* Push the sort container to the right */
+}
+#search-input {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#search-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#sort-select {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+#product-container {
+  min-height: 400px; /* Set the minimum height as needed */
 }

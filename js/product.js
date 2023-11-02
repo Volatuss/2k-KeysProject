@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$20.00",
 			"salePrice": "",
 			"image": "winKeyImg.jpg",
-			"tags": ["microsoft product", "operating system"]
+			"tags": ["microsoft", "OS"]
 		},
 		{
 			"id": "2",
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$34.00",
 			"salePrice": "",
 			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world"]
+			"tags": ["game", "rpg", "open world", "PC"]
 			
 		},
 		{
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$38.00",
 			"salePrice": "$29.99",
 			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "pc", "sale"]
+			"tags": ["game", "rpg", "open world", "sale"]
 			
 		},
 	];
