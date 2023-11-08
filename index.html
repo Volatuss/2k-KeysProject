@@ -57,7 +57,10 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="search-container">
                     <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="Search products...">
+						<div class="search-input-container">
+							<input type="text" id="search-input" placeholder="Search products...">
+							<span id="clear-button" class="clear-button">X</span>
+						</div>
                         <button id="search-button">Search</button>
                     </div>
                     <div class="sort-container">
@@ -70,7 +73,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="filters">
+                <div class="filters" id="filter">
                     <h5>Filter by Category</h5>
                     <label>
                         <input type="checkbox" name="category" value="microsoft">
@@ -107,7 +110,7 @@
                         Under $50
                     </label>
                 </div>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="product-container">
+                <div class="row gx-4 gx-lg-5 justify-content-center" id="product-container">
                     <!-- Product cards should dynamically be added here -->
                 </div>
             </div>

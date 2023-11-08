@@ -641,31 +641,6 @@ progress {
   margin-left: auto;
 }
 
-@media (min-width: 576px) {
-  .container-sm, .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container-md, .container-sm, .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1140px;
-  }
-}
-@media (min-width: 1400px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1320px;
-  }
-}
 .row {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -4149,6 +4124,8 @@ textarea.form-control-lg {
 }
 
 .card {
+	width: 250px;
+	height: 350px;
   --bs-card-spacer-y: 1rem;
   --bs-card-spacer-x: 1rem;
   --bs-card-title-spacer-y: 0.5rem;
@@ -10871,8 +10848,10 @@ textarea.form-control-lg {
 
 .filters {
   float: left;
+	min-width: 205px;
   width: 20%;
   padding: 20px;
+	margin-right: 20px;
   border-right: 1px solid #ccc;
 }
 
@@ -10893,6 +10872,7 @@ textarea.form-control-lg {
 
 .search-bar {
   width: 65%;
+	max-width: 550px;
   display: flex;
   align-items: center; /* Vertically align the search input and button */
 }
@@ -10901,6 +10881,7 @@ textarea.form-control-lg {
   margin-left: auto; /* Push the sort container to the right */
 }
 #search-input {
+	flex-grow: 1;
   width: 70%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -10922,5 +10903,32 @@ textarea.form-control-lg {
 }
 
 #product-container {
-  min-height: 400px; /* Set the minimum height as needed */
+  	display: grid;
+	max-width: 100%;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 5px;
+	justify-content: center;
+	align-items: flex-start;
+		
+}
+.search-input-container {
+	min-width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.clear-button {
+    display: none;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    right: 5px; /* Adjust the right position as needed */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+	#product-container {
+		grid-template-columns: 1fr;
+	}
 }
