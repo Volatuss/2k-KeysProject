@@ -58,5 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("product-name").textContent = product.name;
         document.getElementById("product-description").textContent = product.description;
         document.getElementById("product-price").textContent = product.price;
-    }
+	}
+
 });
