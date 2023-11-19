@@ -33,8 +33,26 @@
                         </ul>
                     </li>
                 </ul>
+                <!-- Update the cart overlay content to include a list of items -->
+                <div id="cart-overlay">
+                    <button id="close-cart" class="btn-close" aria-label="Close"></button>
+                    
+                    <div class="cart-text">Cart </div>
+
+                    <!-- Cart content with a list of items -->
+                    <div class="cart-items-list" id="cart-items-list">
+                        <!-- Sample item entry (you can dynamically generate these with JavaScript) -->
+                       
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <div class="checkout-button"> Proceed to Checkout </div>
+                    </div>
+
+                    </div>
+                </div>
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-outline-dark" id="cart-button" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -129,5 +147,6 @@
     <!-- Core theme JS-->
     <script src="../js/shopPage.js"></script>
     <script src="../js/breadcrumb.js"></script>
+    <script src="../js/navBarScripts.js"></script>
 </body>
 </html>

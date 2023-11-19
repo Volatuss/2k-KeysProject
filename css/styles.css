@@ -10906,7 +10906,7 @@ textarea.form-control-lg {
 }
 
 #product-container {
-  	display: grid;
+  display: grid;
 	max-width: 100%;
 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	gap: 5px;
@@ -10950,4 +10950,135 @@ textarea.form-control-lg {
 
 .separator {
   margin: 0 5px; /* Adjust the margin as needed to control the space */
+}
+
+#close-cart {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1rem; /* Adjust the font size as needed */
+}
+
+#cart-overlay {
+  position: fixed;
+  top: 0;
+  right: -45%; /* Initially hide the cart off-screen */
+  width: 45%; /* Set to 45% of the screen width */
+  height: 100%;
+  background-color: white; /* Set your preferred background color */
+  box-shadow: -5px 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+  transition: right 0.3s ease; /* Smooth transition for sliding effect */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  z-index: 1000; /* Set a higher z-index value */
+}
+
+/* Style the cart content */
+#cart-overlay .cart-content {
+  padding: 20px;
+}
+
+/* Add this style to hide the scrollbar when the cart is closed */
+body.cart-overlay-open {
+  overflow: hidden;
+}
+
+.cart-items-list {
+  width: 85%;
+  height: 65%;
+  margin-left: 40px;
+  justify-content: center;
+  overflow-y: auto;
+  border: 1px solid #ddd; /* Add a border to create a clear divider */
+  border-radius: 5px; /* Optional: Add rounded corners for aesthetics */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a box-shadow for depth */
+
+}
+
+/* Styles for each item entry */
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd; /* Add a border to create a clear divider */
+  border-radius: 5px; /* Optional: Add rounded corners for aesthetics */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a box-shadow for depth */
+}
+
+.item-image img {
+  max-width: 50px; /* Adjust as needed */
+  max-height: 50px; /* Adjust as needed */
+  margin-right: 10px;
+}
+
+.item-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#trash-item {
+  top: 10px;
+  right: 10px;
+  font-size: 1rem;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+}
+
+.btn-quantity {
+  /* Style your plus/minus buttons */
+}
+.cart-summary{
+  width: 85%;
+  height: 7%;
+  margin-left: 40px;
+  margin-top: 25px;
+  flex-direction: column;
+  justify-content: flex-end;
+  display: flex;
+  overflow-y: auto;
+  }
+.quantity-input {
+  width: 40px;
+  text-align: center;
+}
+
+.item-total {
+  align-self: flex-end;
+}
+
+.cart-text{
+  margin-left: 40px;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.checkout-button{
+  margin: auto;
+  width: 30%;
+  height: 100%;
+  margin-right: 0px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd; /* Add a border to create a clear divider */
+  border-radius: 5px; /* Optional: Add rounded corners for aesthetics */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.price-breakdown {
+  font-size: 14px;
+  color: grey; /* Set the color for the price breakdown */
+}
+.total-price{
+  font-size: 18px;
+  color: black;
 }
