@@ -14,8 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const urlParams = new URLSearchParams(window.location.search);
 	const productId = urlParams.get("id");
 	
-	// Fetch the product data from the database Once we have a db
-	// Temporary data here for testing
+	// NEED TO GET DATA FROM THE SHOPS DATABASE HERE ______________________________________________________
 	const data = [
 		{
 			"id": "1",

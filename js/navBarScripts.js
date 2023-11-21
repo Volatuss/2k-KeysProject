@@ -2,7 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartOverlay = document.getElementById('cart-overlay');
     const cartButton = document.getElementById('cart-button');
     const closeCartButton = document.getElementById('close-cart');
+	const subtotalText = document.getElementById('subtotalText');
+	const checkoutButton = document.getElementById('checkout-button');
 
+	subtotal = 0;
+	totalItems = 0;
     cartButton.addEventListener('click', function () {
         toggleCart();
     });
@@ -122,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateCartDisplay() {
 		// Clear the current cart display
 		cartItemsList.innerHTML = '';
-
+		subtotal=0;
+		totalItems=0;
 		// Render each item in the cart
 		cartItems.forEach(item => {
 			// Create a div element to hold the card HTML
@@ -134,6 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
 				cartItemsList.appendChild(cardDiv);
 			}
 		});
+
+		subtotalText.innerHTML = `<strong>Subtotal (${totalItems} items):</strong> $${subtotal.toFixed(2)}`;
 	}
 
     function getCardHTML(product) {
@@ -146,7 +153,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			const discount = regularPrice - salePrice;
 			realPrice-=discount;
 		}
-        
+
+		totalItems += product.quantity;
+        subtotal += realPrice * product.quantity;
+
         // HTML structure for the cart item
         return `
         <div class="cart-item">
@@ -275,6 +285,10 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCartDisplay();
     }
 
+	checkoutButton.addEventListener('click', function () {
+		// Redirect to the checkout page
+		window.location.href = '../html/cartPage.html';
+	});
 
 });
     
