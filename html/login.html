@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Login - 2K-Keys</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="../css/styles.css" rel="stylesheet" />
+	<script>
+        document.addEventListener("DOMContentLoaded", function () {
+			const loginForm = document.getElementById('loginForm');
+			const createAccountForm = document.getElementById('createAccountForm');
+			const toggleButton = document.getElementById('toggleButton');
+			const toggleText = document.getElementById('toggleText');
+
+			toggleButton.addEventListener('click', function () {
+				// Toggle visibility of login and create account forms
+				loginForm.classList.toggle('d-none');
+				createAccountForm.classList.toggle('d-none');
+
+				// Toggle text and functionality of the toggle button
+				if (loginForm.classList.contains('d-none')) {
+					toggleText.textContent = 'Already have an account?';
+					toggleButton.textContent = 'Login';
+				} else {
+					toggleText.textContent = "Don't have an account?";
+					toggleButton.textContent = 'Create Account';
+				}
+			});
+		});
+    </script>
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="../index.html">2K-Keys</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Content -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center">Login</h1>
+                <form id="loginForm">
+                    <!-- Login form fields -->
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" required><br>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required><br>
+
+                    <!-- Form submission buttons -->
+                    <div class="form-buttons">
+                        
+						<div class="toggle-container" style="display: flex; justify-content: center;">
+							<label id="toggleText">Don't have an account? </label>
+							<button id="toggleButton" class="btn btn-link">Create Account</button>
+						</div>
+                        
+                        
+                        <button type="submit" class="btn btn-primary-rightaligned">Login</button>
+                    </div>
+                </form>
+
+                <!-- Create Account form -->
+                <form id="createAccountForm" class="d-none">
+                    <!-- Create account form fields -->
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required><br>
+
+                    <label for="newUsername">Username:</label>
+                    <input type="text" id="newUsername" name="newUsername" class="form-control" required><br>
+
+                    <label for="newPassword">Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" class="form-control" required><br>
+
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required><br>
+
+                    <!-- Form submission buttons -->
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-success">Create Account</button>
+                    </div>
+                </form>
+
+                <div id="message"></div>
+            </div>
+        </div>
+    </div>
+	
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="../js/login-script.js"></script>
+</body>
+
+</html>

@@ -11082,3 +11082,119 @@ body.cart-overlay-open {
   font-size: 18px;
   color: black;
 }
+
+
+
+/* Cart container */
+.cart-container {
+	flex: 1;
+	max-width: 400px;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: auto; /* Centering the cart */
+}
+
+/* Checkout container */
+.checkout-container {
+	flex: 1;
+	padding: 20px;
+	margin-right: 200px;
+}
+
+/* Cart item style */
+.cart-item {
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.item-image img {
+	max-width: 60px;
+	max-height: 60px;
+	margin-right: 10px;
+}
+
+.item-details {
+	flex-grow: 1;
+}
+
+/* Checkout form style */
+.checkout-form {
+	margin: 0 auto;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.form-group input {
+	width: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+}
+
+.form-group button {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
+}
+
+/* Checkout form layout */
+.checkout-form table {
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.checkout-form table td {
+	padding: 8px;
+}
+
+/* Submit button style */
+.submit-btn {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
+	border-radius: 8px;
+}
+#expirationDate {
+        width: 80px; /* Adjust the width as needed */
+    }
+    
+#postalCode {
+	width: 120px; /* Adjust the width as needed */
+}
+#creditCard{
+	width: 200px;
+}
+#securityCode{
+	width: 80px;
+}
+
+#zipCode{
+	width: 150px;
+}
+#state{
+	width: 150px;
+}
+#city{
+	width: 120px;
+}
+td {
+	padding: 5px; /* Adjust the padding as needed */
+	margin: 0; /* Set margin to 0 to remove any default margin */
+}
+
