@@ -1,27 +1,34 @@
- const forms = document.querySelector(".forms"),
-      pwShowHide = document.querySelectorAll(".eye-icon"),
-      links = document.querySelectorAll(".link");
 
-pwShowHide.forEach(eyeIcon => {
-    eyeIcon.addEventListener("click", () => {
-        let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
-        
-        pwFields.forEach(password => {
-            if(password.type === "password"){
-                password.type = "text";
-                eyeIcon.classList.replace("bx-hide", "bx-show");
-                return;
-            }
-            password.type = "password";
-            eyeIcon.classList.replace("bx-show", "bx-hide");
-        })
-        
-    })
-})      
+function loginUser() {
+    console.log('Logging in...');
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-links.forEach(link => {
-    link.addEventListener("click", e => {
-       e.preventDefault(); //preventing form submit
-       forms.classList.toggle("show-signup");
+    fetch('http://ec2-3-145-126-187.us-east-2.compute.amazonaws.com:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email,
+            password,
+        }),
     })
-})
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        // Handle successful login, e.g., redirect to a new page
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error logging in. Please try again.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const loginButton = document.getElementById('loginButton');
+        loginButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        loginUser(); // Call your function
+    });
+});
