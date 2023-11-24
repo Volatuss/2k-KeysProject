@@ -33,13 +33,40 @@
                         </ul>
                     </li>
                 </ul>
+                <!-- Update the cart overlay content to include a list of items -->
+                <div id="cart-overlay">
+                    <div id="confirmationModal" class="modal">
+                        <div class="modal-content">
+                            <p>Are you sure you want to remove this item from the cart?</p>
+                            <button id="confirmYes">Yes</button>
+                            <button id="confirmNo">No</button>
+                        </div>
+                    </div>
+                    <button id="close-cart" class="btn-close" aria-label="Close"> </button>
+                    
+                    <div class="cart-text">Cart </div>
+
+                    <!-- Cart content with a list of items -->
+                    <div class="cart-items-list" id="cart-items-list">
+                        <!-- Sample item entry (you can dynamically generate these with JavaScript) -->
+                    
+                    </div>
+                    
+                    <div class="cart-summary">
+                        <span id="subtotalText" class="summary-text">Subtotal:</span>
+                        <div id="checkout-button" class="checkout-button"> Proceed to Checkout </div>
+                    </div>
+
+                    </div>
+                </div>
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <button class="btn btn-outline-dark" id="cart-button" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span id="cart-badge" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </button>
                 </form>
+                <div id="popup-message" class="popup-message"></div>
             </div>
         </div>
     </nav>
@@ -58,13 +85,25 @@
             <span id="current-page"></span>
         </div>
 
-        <div class="product-details">
-            <h1 id="product-name" class="product-name">Product Name</h1>
-            <p id="product-description" class="product-description">Product Description</p>
-            <p id="product-price" class="product-price">Product Price</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="product-details">
+                        <h1 id="product-name" class="product-name">Product Name</h1>
+                        <p id="product-description" class="product-description">Product Description</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="product-price-box border rounded p-3" style="max-width: 300px; margin: auto;">
+                        <p id="product-price" class="product-price" style="font-size: 18px; text-align: left;">Product Price</p>
+                        <button id="addbtn" class="btn btn-primary btn-lg" style="width: 100%;">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     <script src="../js/product.js"></script>   
     <script src="../js/breadcrumb.js"></script>
+    <script src="../js/navBarScripts.js"></script> 
 </body>
 </html>

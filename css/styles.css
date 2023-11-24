@@ -11081,3 +11081,107 @@ body.cart-overlay-open {
   text-align: right;
   padding-bottom: 20px;
 }
+
+.popup-message {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 30px;
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.homepage-container {
+  width: 90%;
+  height: auto;
+  margin: auto;
+  position: relative; /* Required for absolute positioning of navigation buttons */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.carousel-wrapper {
+  overflow: hidden;
+}
+.product-carousel {
+  display: flex;
+  overflow: hidden;
+  position: relative; /* Required for positioning the buttons outside the carousel */
+  /* margin: 0 -10px; */
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  width: 30px; /* Adjust the width of your navigation buttons */
+  height: 100%; /* Adjust the height of your navigation buttons */
+  background-color: rgba(0, 0, 0, 0.5); /* Semitransparent background color */
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  line-height: 472px; /* Center the text vertically */
+  cursor: pointer;
+}
+
+#prev-btn-new {
+  left: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+
+#next-btn-new {
+  right: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+#prev-btn-featured {
+  left: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+
+#next-btn-featured {
+  right: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+#prev-btn-popular {
+  left: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+
+#next-btn-popular {
+  right: -40px;
+  z-index: 99;
+  transform: translateY(-50%);
+}
+.promo-code {
+  display: flex;
+  align-items: center;
+}
+
+.promo-code label {
+  margin-right: 10px; /* Adjust as needed for spacing */
+}

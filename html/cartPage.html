@@ -222,6 +222,11 @@
 			font-size: 18px;
 			padding: 20px;
 			padding-left: 40px;
+			
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        
 		}
 		.col-lg-6 {
 			min-width: 700px;
@@ -237,18 +242,9 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="../index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="../html/shopPage.html">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-						<li class="nav-item"> <a class="nav-link active" href="../html/login.html">Login</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="html/shopPage.html">All Products</a></li>
+                        <li class="nav-item"> <a class="nav-link active" href="html/login.html">Login</a></li>
                     </ul>
 
                 </div>
@@ -264,17 +260,23 @@
 					<div class="container-box summary-container" id="summary-container">
 						<h2 class="mb-3">Summary&nbsp;</h2>
 						<div class="cart-items-list" id="cart-items-list"></div>
-						<div class="total-container" id="total-container"></div>
-					  </div>
+						<div class="total-container" id="total-container">
+							<div id="total-left" class="total-left">
+							</div>
+							<div class="total-right" style="width:50%;">
+								<label for="promo-code-input">Promo Code:</label>
+								<input type="text" id="promo-code-input" />
+								<button id="promo-button">Apply</button>
+								<p id="codeMessage">Only One Code can be Applied</p>
+							</div>
+					  	</div>
+					</div>
 				</div>
-			  
 
 			<div class="col-lg-6">
-			<!-- Add the "container-box" class here -->
-			
-			<div class="container-box checkout-container">
-				<h2 class="mb-3">Checkout&nbsp;</h2>
-				<form id="checkoutForm" class="checkout-form">
+				<div class="container-box checkout-container">
+					<h2 class="mb-3">Checkout&nbsp;</h2>
+						<form id="checkoutForm" class="checkout-form">
 							<table>
 								<tr>
 									<td colspan="2">
@@ -322,7 +324,7 @@
 							</table>
 
 							<!-- Submit button outside the form -->
-							<button type="button" class="submit-btn" onclick="submitOrder()">Submit Order</button>
+							<button type="button" class="submit-btn" id="submit-btn">Submit Order</button>
 						</form>
 					</div>
 				</div>
@@ -337,6 +339,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="../js/cartPage.js"></script>
-		<script src="../js/breadcrumb.js"></script>
     </body>
 </html>

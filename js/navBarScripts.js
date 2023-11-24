@@ -1,10 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
+	console.log("navBarScripts.js loaded");
     const cartOverlay = document.getElementById('cart-overlay');
     const cartButton = document.getElementById('cart-button');
     const closeCartButton = document.getElementById('close-cart');
 	const subtotalText = document.getElementById('subtotalText');
 	const checkoutButton = document.getElementById('checkout-button');
+    const cartItemsList = document.querySelector('.cart-items-list');
+    const cartItems = []; // Array to store cart items and their quantities
+	const cartBadge = document.getElementById('cart-badge');
 
+
+	const currentPath = window.location.pathname;
+	const containsIndexHtml = currentPath.indexOf("index.html") !== -1;
+
+	// Update the path based on the existence of "index.html"
+	const pathPrefix = containsIndexHtml ? '' : '..';
 	subtotal = 0;
 	totalItems = 0;
     cartButton.addEventListener('click', function () {
@@ -13,8 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeCartButton.addEventListener('click', function () {
         toggleCart();
-    });
-    
+    }); 
 
     function toggleCart() {
         // Toggle the cart overlay
@@ -32,13 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const total = parseFloat(quantityInput.value) * pricePerItem;
         itemTotalElement.textContent = total.toFixed(2);
     }
-	
-
-
-    const cartItemsList = document.querySelector('.cart-items-list');
-    const cartItems = []; // Array to store cart items and their quantities
-
-
+	/*
+				----------------------------- This will be a SQL Statement -----------------------------
+				This will need to get the cart data for the customer that is logged in.
+	*/
     const data = [
 		{
 			"id": "1",
@@ -122,6 +128,18 @@ document.addEventListener('DOMContentLoaded', function () {
         addItemToCart({ ...item, quantity: 1 }); // Add a quantity property
     });
 
+	function showPopupMessage(message) {
+		const popupMessage = document.getElementById('popup-message');
+		if (popupMessage) {
+			popupMessage.textContent = message;
+			popupMessage.style.display = 'block';
+	  
+		  	// Hide the message after 3 seconds (adjust as needed)
+		  	setTimeout(() => {
+				popupMessage.style.display = 'none';
+			}, 3000);
+		}
+	}
     
     function updateCartDisplay() {
 		// Clear the current cart display
@@ -139,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				cartItemsList.appendChild(cardDiv);
 			}
 		});
-
+		cartBadge.textContent = totalItems.toString();
 		subtotalText.innerHTML = `<strong>Subtotal (${totalItems} items):</strong> $${subtotal.toFixed(2)}`;
 	}
 
@@ -157,11 +175,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		totalItems += product.quantity;
         subtotal += realPrice * product.quantity;
 
+		
+		
+
         // HTML structure for the cart item
         return `
         <div class="cart-item">
             <div class="item-image">
-                <img src="../assets/${product.image}" alt="${product.name} Image">
+                <img src="${pathPrefix}assets/${product.image}" alt="${product.name} Image">
             </div>
             <div class="item-details">
                 <div class="item-name">
@@ -170,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
                 <div class="item-quantity">
 					<button class="btn-quantity decrease" data-item-id="${product.id}">-</button>
-                	<input type="text" class="quantity-input" value="${product.quantity}" data-item-id="${product.id}">
+                	<input id="qty-input-${product.id}" type="text" class="quantity-input" value="${product.quantity}" data-item-id="${product.id}">
 					<button class="btn-quantity increase" data-item-id="${product.id}">+</button>
 				</div>
                 <div class="item-total">
@@ -235,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-// Update the updateQuantity function
 	function updateQuantity(itemId, newQuantity) {
 		const item = cartItems.find(item => item.id === itemId);
 
@@ -287,8 +307,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	checkoutButton.addEventListener('click', function () {
 		// Redirect to the checkout page
-		window.location.href = '../html/cartPage.html';
+		window.location.href = pathPrefix+'html/cartPage.html';
 	});
 
+	// ----------------------------- This Use an SQL Statement to grab the item -----------------------------
+	function addProductByID(productId){
+		item = data.find(item => item.id === productId)
+		showPopupMessage("Item Added To Cart");
+		addItemToCart(item);
+	}
+	window.addProductByID = addProductByID;
 });
-    
+
+
+
+function addToCart(productId) {
+	addProductByID(productId);
+}

@@ -1,56 +1,185 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+    const promoButton = document.getElementById('promo-button');
+	const promoCodeInput = document.getElementById('promo-code-input');
+    const promoCodeMessage = document.getElementById('codeMessage');
+    const submitButton = document.getElementById('submit-btn');
 
-    // NEED TO GET DATA FROM CUSTOMERS DATABASE CART HERE __________________________________________
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const ccn = document.getElementById("creditCard");
+    const cvv = document.getElementById("securityCode");
+    const exp = document.getElementById("expirationDate");
+    const cardZip = document.getElementById("postalCode");
+    const address1 = document.getElementById("addressLine1");
+    const address2 = document.getElementById("addressLine2");
+    const city = document.getElementById("city");
+    const state = document.getElementById("state");
+    const zip = document.getElementById("zipCode");
 
-    const cartItems = [
-        { name: 'Item 1', quantity: 2, price: 10 },
-        { name: 'Item 2', quantity: 1, price: 20 },
-        // Add more items as needed
-      ];
+    discountMult = 1.0;
+    total = 0;
+    overallTotal=0;
     numItems=0;
-    
-      // Function to calculate total cost
-    function calculateTotal() {
-    let total = 0;
-    cartItems.forEach(item => {
-        total += item.quantity * item.price;
+    promo='None';
+
+    promoButton.addEventListener('click', function () {
+		applyPromoCode(promoCodeInput.value);
+	});
+    submitButton.addEventListener('click', function () {
+        submitOrder();
     });
 
-    const taxRate = 0.0825;
-    const tax = total * taxRate;
-    const overallTotal = total + tax;
+    // NEED TO GET DATA FROM CUSTOMERS DATABASE CART HERE __________________________________________
+    const promoCodes = [{ code: 'test', discount: .25}, { code: '50off', discount: .5 }]
+    const cartItems = [
+        {
+			"id": "1",
+			"name": "Windows 10 Home Key",
+			"price": "$20.00",
+			"salePrice": "",
+			"image": "winKeyImg.jpg",
+            "quantity": "1"
+		},
+		{
+			"id": "2",
+			"name": "Baldurs Gate 3 (PC) Key",
+			"price": "$34.00",
+			"salePrice": "",
+			"image": "bg3KeyImg.jpg",
+            "quantity":"1"
+			
+		},
+		{
+			"id": "3",
+			"name": "Starfield (PC) Key",
+			"price": "$38.00",
+			"salePrice": "$29.99",
+			"image": "stfKeyImg.jpg",
+            "quantity":"1"
+		},
+        
+    ];
+    
+    function getRealPrice(item){
+        const hasSalePrice = item.salePrice !== "";
+        let realPrice = parseFloat(item.price.replace("$", "").split(" - ")[0]);
 
-    return { total, tax, overallTotal };
+        if (hasSalePrice) {
+            const regularPrice = parseFloat(item.price.replace("$", "").split(" - ")[0]);
+            const salePrice = parseFloat(item.salePrice.replace("$", ""));
+            const discount = regularPrice - salePrice;
+            realPrice-=discount;
+        }
+        return realPrice;
+    }
+
+    function calculateTotal() {
+        overallTotal=0;
+        total = 0;
+        cartItems.forEach(item => {
+            
+            total += item.quantity * getRealPrice(item);
+        });
+        
+        if(discountMult != 1){
+            total=(total * (1-discountMult));
+        }
+        
+        const taxRate = 0.0825;
+        const tax = total * taxRate;
+        overallTotal = total + tax;
+
+        return { total, tax, overallTotal };
     }
     
     // Function to render cart items and total
     function renderSummary() {
-    const cartItemsList = document.getElementById('cart-items-list');
-    const totalContainer = document.getElementById('total-container');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const totalContainer = document.getElementById('total-left');
+        numItems=0;
 
-    cartItemsList.innerHTML = ''; // Clear existing content
+        cartItemsList.innerHTML = ''; // Clear existing content
 
-    cartItems.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('cart-item');
-        itemElement.innerHTML = `
-            <div class="cart-item-name">${item.name} <span class="item-quantity">Qty: ${item.quantity}</span></div>
-            <div class="item-price">$${(item.quantity * item.price).toFixed(2)}</div>`;
-        cartItemsList.appendChild(itemElement);
-        numItems = numItems + item.quantity;
-        });
+        cartItems.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-item');
+            itemElement.innerHTML = `
+                <div class="cart-item-name">${item.name} <span class="item-quantity">Qty: ${item.quantity}</span></div>
+                <div class="item-price">$${(item.quantity * getRealPrice(item)).toFixed(2)}</div>`;
+            cartItemsList.appendChild(itemElement);
+            numItems = numItems + parseInt(item.quantity);
+            });
+            
+            const { total, tax, overallTotal } = calculateTotal();
         
-    
-        const { total, tax, overallTotal } = calculateTotal();
-    
-        totalContainer.innerHTML = `
-        <p>Subtotal (${numItems} items): $${total.toFixed(2)}</p>
-        <p>Tax (8.25%): $${tax.toFixed(2)}</p>
-        <p>Overall Total: $${overallTotal.toFixed(2)}</p>
-        `;
+            totalContainer.innerHTML = `
+            <p>Subtotal (${numItems} items): $${total.toFixed(2)}</p>
+            <p>Tax (8.25%): $${tax.toFixed(2)}</p>
+            <p>Overall Total: $${overallTotal.toFixed(2)}</p>
+            `;
     }
 
-    // Call the function to render the summary
+    function applyPromoCode(code){
+        discountMult=1;
+		validCode = promoCodes.find(validCode => validCode.code === code);
+        if(validCode){
+            discountMult=validCode.discount;
+            saved=total-(1-discountMult);
+            promoCodeMessage.innerHTML = `Applied, saving you $${saved.toFixed(2)}`
+            calculateTotal();
+            renderSummary();
+            promo=validCode.code;
+        }else{
+            promoCodeMessage.innerHTML = `Invalid Code`
+            promo='None';
+        }
+    }
+
+    function areAllFieldsPopulated() {
+        // Check if every single field (except address2) is populated
+        return (
+            firstName.value.trim() !== '' &&
+            lastName.value.trim() !== '' &&
+            ccn.value.trim() !== '' &&
+            cvv.value.trim() !== '' &&
+            exp.value.trim() !== '' &&
+            cardZip.value.trim() !== '' &&
+            address1.value.trim() !== '' &&
+            city.value.trim() !== '' &&
+            state.value.trim() !== '' &&
+            zip.value.trim() !== ''
+        );
+    }
+
+    function submitOrder(){
+        if(areAllFieldsPopulated()){
+            const formattedCCN = ccn.value.slice(-4); // Get the last 4 digits of the credit card number
+            itemSummary=''
+            cartItems.forEach(item => {
+                itemSummary += `${item.name}: ${item.quantity} `;
+            });
+            
+            /* This is a temporary console print, it will be a database push when implemented completely, to be later used in the order history page */
+            console.log(`
+                Order Date: ${getTimeStamp()}
+                Name: ${firstName.value} ${lastName.value}
+                Items: ${itemSummary}
+                Promo Applied: ${promo}
+                Total: $${overallTotal.toFixed(2)}
+            `);
+        }
+    }
     renderSummary();
 });
+
+function getTimeStamp(){
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Month is zero-indexed, so add 1
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+    return `${hours}:${minutes}:${seconds} ${month}-${day}-${year}`;
+}

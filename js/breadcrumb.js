@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (productId) {
         fetchProductDetails(productId);
     } else {
-        breadcrumb.innerHTML = 'Home <span class="separator">> </span> All Products';
+        setDefaultBreadcrumb();
+    }
+
+    function setDefaultBreadcrumb() {
+        breadcrumb.innerHTML = '<a href="../index.html">Home</a> <span class="separator">> </span> <a href="../html/shopPage.html">All Products</a>';
+        sessionStorage.setItem("breadcrumb", breadcrumb.innerHTML);
     }
 
     function fetchProductDetails(id) {
-        if (productId === "all-products") {
-            breadcrumb.innerHTML = 'Home <span class="separator">> </span> All Products';
-            sessionStorage.clear(); // Clear all session storage
+        if (id === "all-products") {
+            setDefaultBreadcrumb();
             return;
         }
 
@@ -23,10 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // ...
 
         const previousBreadcrumb = sessionStorage.getItem("breadcrumb");
-        const breadcrumbTrail = [productName.textContent];
+        const breadcrumbTrail = previousBreadcrumb ? previousBreadcrumb.split('<span class="separator">> </span>') : [];
 
-        if (previousBreadcrumb) {
-            breadcrumbTrail.push(...previousBreadcrumb.split('<span class="separator">> </span>'));
+        // Check if the current product name is already in the breadcrumb trail
+        const isProductInBreadcrumb = breadcrumbTrail.includes(productName.textContent);
+
+        if (!isProductInBreadcrumb) {
+            breadcrumbTrail.push(productName.textContent);
         }
 
         const updatedBreadcrumb = breadcrumbTrail.join('<span class="separator">> </span>');
@@ -35,3 +42,4 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.setItem("breadcrumb", updatedBreadcrumb);
     }
 });
+    

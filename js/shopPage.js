@@ -1,20 +1,25 @@
-/*!
-* Start Bootstrap - Shop Homepage v5.0.6 (https://startbootstrap.com/template/shop-homepage)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
-*/
-
 document.addEventListener("DOMContentLoaded", function () {
-	// Get Reference to the Product Container, which will hold all the items
+	console.log("shopPage.js loaded");
+
+	// Get References
 	const productContainer = document.getElementById("product-container");
 	const filterSelect = document.getElementById("filter");
+	const sortSelect = document.getElementById("sort-select");
+	const searchButton = document.getElementById('search-button');
+	const searchInput = document.getElementById('search-input');
+	const clearButton = document.getElementById('clear-button');
+	const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+	const priceCheckboxes = document.querySelectorAll('input[name="price"]');
+
 	
 	productContainer.style.minHeight = filterSelect.offsetHeight + 'px';
-	// Get the product ID from the URL query parameter
-	const urlParams = new URLSearchParams(window.location.search);
-	const productId = urlParams.get("id");
-	
-	// NEED TO GET DATA FROM THE SHOPS DATABASE HERE ______________________________________________________
+
+	/*
+				----------------------------- This will be a SQL Statement -----------------------------
+				This will need to get every item from the database once loaded, honestly may need to happen
+				prior to this so that the home page can have the product carousels 
+	*/
+
 	const data = [
 		{
 			"id": "1",
@@ -22,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$20.00",
 			"salePrice": "",
 			"image": "winKeyImg.jpg",
-			"tags": ["microsoft", "OS"]
+			"tags": ["microsoft", "OS"],
+			"description": "This is the microsoft key description cir"
 		},
 		{
 			"id": "2",
@@ -30,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$34.00",
 			"salePrice": "",
 			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "PC"]
+			"tags": ["game", "rpg", "open world", "PC"],
+			"description": "This is the Baldurs gate key description bis"
 			
 		},
 		{
@@ -39,7 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$38.00",
 			"salePrice": "$29.99",
 			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "sale"]
+			"tags": ["game", "rpg", "open world", "sale"],
+			"description": "This is the Starfield description akq"
 			
 		},
 		{
@@ -48,7 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$20.00",
 			"salePrice": "",
 			"image": "winKeyImg.jpg",
-			"tags": ["microsoft", "OS"]
+			"tags": ["microsoft", "OS"],
+			"description": "This is the microsoft key description cir"
 		},
 		{
 			"id": "5",
@@ -56,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$34.00",
 			"salePrice": "",
 			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "PC"]
+			"tags": ["game", "rpg", "open world", "PC"],
+			"description": "This is the Baldurs gate key description bis"
 			
 		},
 		{
@@ -65,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$38.00",
 			"salePrice": "$29.99",
 			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "sale"]
+			"tags": ["game", "rpg", "open world", "sale"],
+			"description": "This is the Starfield description akq"
 			
 		},
 	];
@@ -100,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		// Populate the card with product data
 		cardDiv.innerHTML = `
-			<div class="card h-100",id="${product.id}" card-name="${product.name}" data-categories="${product.tags.join(" ")}", data-price="${realPrice}">
+			<div class="card h-100" id="${product.id}" card-name="${product.name}" data-categories="${product.tags.join(" ")}" card-description="${product.description}" data-price="${realPrice}">
 				<img class="card-img-top" src="../assets/${product.image}" alt="Product Image" />
 				<div class="card-body p-4">
 					<div class="text-center">
@@ -114,8 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					</div>
 				</div>
 				<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-					<div class="text-center">
-						<a class="btn btn-outline-dark mt-auto" href="../html/product.html?id=${product.id}">View Product</a>
+					<div class="text-center" id="button-container">
+						<a id="add-to-cart-button" data-product-id="${product.id}" class="btn btn-primary mb-2"href="#">Add to Cart</a>
+						<a class="btn btn-outline-dark" href="../html/product.html?id=${product.id}">View Product</a>
 					</div>
 				</div>
 			</div>
@@ -123,16 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		return cardDiv;
 	}
 	
-	// Get reference to the select drop down
-	const sortSelect = document.getElementById("sort-select");
 	sortSelect.addEventListener("change", function () {
 		filterProducts();
 	});
 	
-	// Get reference to the search bar and search input, add lister to the button 
-	const searchButton = document.getElementById('search-button');
-	const searchInput = document.getElementById('search-input');
-	const clearButton = document.getElementById('clear-button');
 	let searchTerm = "";
 	
 	// Add an event listener for the input field
@@ -177,8 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	// Get reference to the filter checkboxes
-	const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
-	const priceCheckboxes = document.querySelectorAll('input[name="price"]');
+
 
 	// Event listener for category checkboxes
 	categoryCheckboxes.forEach((checkbox) => {
@@ -224,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 			// Check filter conditions
 			const cardName = card.getAttribute("card-name");
-			const searchTermMatch = searchTerm === "" || cardName.toLowerCase().includes(searchTerm);
+			const searchTermMatch = searchTerm === "" || cardName.toLowerCase().includes(searchTerm) || card.getAttribute('card-description').toLowerCase().includes(searchTerm);
 			
 			const cardCategories = cardCategoriesAttribute.split(" ");
 			const categoryFilterMatch = selectedCategories.length === 0 || selectedCategories.every((category) => cardCategories.includes(category));
@@ -317,4 +322,18 @@ document.addEventListener("DOMContentLoaded", function () {
 		productContainer.removeChild(productContainer.firstChild);
 	}
 	filterProducts();
+
+    productContainer.addEventListener("click", function (event) {
+		if (event.target.matches('.card-footer #add-to-cart-button')) {
+			const addToCartButton = event.target.closest('.card-footer #add-to-cart-button');
+
+			event.preventDefault(); // Prevent the default link behavior
+			const productId = addToCartButton.closest('.card').getAttribute('id');
+
+			// Check if the addToCart function is defined in navBarScript.js
+        if (typeof window.addToCart === "function") {
+            window.addToCart(productId);
+        }
+	}
+    });
 });

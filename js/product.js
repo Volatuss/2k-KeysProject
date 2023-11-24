@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	const urlParams = new URLSearchParams(window.location.search);
 	const productId = urlParams.get("id");
 
+	var addToCartButton = document.getElementById("addbtn");
+
+
+    addToCartButton.addEventListener("click", function () {
+		window.addToCart(productId);
+    });
+
 	// Fetch the product data from the database Once we have a db
 	// Temporary data here for testing
 	const data = [
@@ -12,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$20.00",
 			"salePrice": "",
 			"image": "winKeyImg.jpg",
-			"tags": ["microsoft", "OS"]
+			"tags": ["microsoft", "OS"],
+			"description": "This is the microsoft key description cir"
 		},
 		{
 			"id": "2",
@@ -20,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$34.00",
 			"salePrice": "",
 			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "PC"]
+			"tags": ["game", "rpg", "open world", "PC"],
+			"description": "This is the Baldurs gate key description bis"
 			
 		},
 		{
@@ -29,7 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			"price": "$38.00",
 			"salePrice": "$29.99",
 			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "sale"]
+			"tags": ["game", "rpg", "open world", "sale"],
+			"description": "This is the Starfield description akq"
 			
 		},
 	];
