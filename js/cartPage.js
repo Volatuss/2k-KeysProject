@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const promoButton = document.getElementById('promo-button');
 	const promoCodeInput = document.getElementById('promo-code-input');
@@ -23,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     numItems=0;
     promo='None';
 
+    // NEED TO GET DATA FROM CUSTOMERS DATABASE CART HERE __________________________________________
+    const promoCodes = [{ code: 'test', discount: .25}, { code: '50off', discount: .5 }]
+    
     promoButton.addEventListener('click', function () {
 		applyPromoCode(promoCodeInput.value);
 	});
@@ -30,37 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         submitOrder();
     });
 
-    // NEED TO GET DATA FROM CUSTOMERS DATABASE CART HERE __________________________________________
-    const promoCodes = [{ code: 'test', discount: .25}, { code: '50off', discount: .5 }]
-    const cartItems = [
-        {
-			"id": "1",
-			"name": "Windows 10 Home Key",
-			"price": "$20.00",
-			"salePrice": "",
-			"image": "winKeyImg.jpg",
-            "quantity": "1"
-		},
-		{
-			"id": "2",
-			"name": "Baldurs Gate 3 (PC) Key",
-			"price": "$34.00",
-			"salePrice": "",
-			"image": "bg3KeyImg.jpg",
-            "quantity":"1"
-			
-		},
-		{
-			"id": "3",
-			"name": "Starfield (PC) Key",
-			"price": "$38.00",
-			"salePrice": "$29.99",
-			"image": "stfKeyImg.jpg",
-            "quantity":"1"
-		},
-        
-    ];
-    
+
     function getRealPrice(item){
         const hasSalePrice = item.salePrice !== "";
         let realPrice = parseFloat(item.price.replace("$", "").split(" - ")[0]);
@@ -101,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         cartItemsList.innerHTML = ''; // Clear existing content
 
-        cartItems.forEach(item => {
+        window.cartItems.forEach(item => {
             const itemElement = document.createElement('div');
             itemElement.classList.add('cart-item');
             itemElement.innerHTML = `
@@ -155,20 +127,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function submitOrder(){
         if(areAllFieldsPopulated()){
             const formattedCCN = ccn.value.slice(-4); // Get the last 4 digits of the credit card number
-            itemSummary=''
-            cartItems.forEach(item => {
-                itemSummary += `${item.name}: ${item.quantity} `;
-            });
-            
-            /* This is a temporary console print, it will be a database push when implemented completely, to be later used in the order history page */
-            console.log(`
-                Order Date: ${getTimeStamp()}
-                Name: ${firstName.value} ${lastName.value}
-                Items: ${itemSummary}
-                Promo Applied: ${promo}
-                Total: $${overallTotal.toFixed(2)}
-            `);
+            const itemSummary = cartItems.map(item => `${item.name}: ${item.quantity}`).join(', ');
+
+            // Assuming you have user data in the session
+            const userId = window.sessionStorage.getItem('userId'); // Make sure to set this when the user logs in
+
+
+            /* NEED TO IMPLEMENT USING THE ORDER HANDLER */ 
+            // Create an order object
+            const orderDetails = {
+                userId: userId,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                items: itemSummary,
+                promo: promo,
+                total: overallTotal.toFixed(2),
+            }
         }
+
     }
     renderSummary();
 });
@@ -176,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function getTimeStamp(){
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // Month is zero-indexed, so add 1
+    const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
     const hours = currentDate.getHours();
     const minutes = currentDate.getMinutes();

@@ -32,6 +32,7 @@ fetch('http://ec2-3-145-126-187.us-east-2.compute.amazonaws.com:3000/register',{
 		alert('Error registering user please try again');
 	});
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     const createButton = document.getElementById('createAccountButton');
     createButton.addEventListener('click', function(event) {

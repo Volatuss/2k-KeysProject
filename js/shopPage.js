@@ -11,103 +11,21 @@ document.addEventListener("DOMContentLoaded", function () {
 	const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
 	const priceCheckboxes = document.querySelectorAll('input[name="price"]');
 
-	
 	productContainer.style.minHeight = filterSelect.offsetHeight + 'px';
 
-	/*
-				----------------------------- This will be a SQL Statement -----------------------------
-				This will need to get every item from the database once loaded, honestly may need to happen
-				prior to this so that the home page can have the product carousels 
-	*/
+	products = window.products;
 
-	const data = [
-		{
-			"id": "1",
-			"name": "Windows 10 Home Key",
-			"price": "$20.00",
-			"salePrice": "",
-			"image": "winKeyImg.jpg",
-			"tags": ["microsoft", "OS"],
-			"description": "This is the microsoft key description cir"
-		},
-		{
-			"id": "2",
-			"name": "Baldurs Gate 3 (PC) Key",
-			"price": "$34.00",
-			"salePrice": "",
-			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "PC"],
-			"description": "This is the Baldurs gate key description bis"
-			
-		},
-		{
-			"id": "3",
-			"name": "Starfield (PC) Key",
-			"price": "$38.00",
-			"salePrice": "$29.99",
-			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "sale"],
-			"description": "This is the Starfield description akq"
-			
-		},
-		{
-			"id": "4",
-			"name": "Windows 10 Home Key",
-			"price": "$20.00",
-			"salePrice": "",
-			"image": "winKeyImg.jpg",
-			"tags": ["microsoft", "OS"],
-			"description": "This is the microsoft key description cir"
-		},
-		{
-			"id": "5",
-			"name": "Baldurs Gate 3 (PC) Key",
-			"price": "$34.00",
-			"salePrice": "",
-			"image": "bg3KeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "PC"],
-			"description": "This is the Baldurs gate key description bis"
-			
-		},
-		{
-			"id": "6",
-			"name": "Starfield (PC) Key",
-			"price": "$38.00",
-			"salePrice": "$29.99",
-			"image": "stfKeyImg.jpg",
-			"tags": ["game", "rpg", "open world", "sale"],
-			"description": "This is the Starfield description akq"
-			
-		},
-	];
-
-	
-	// Temporary loading of data till we have DB
-	data.forEach((product) => {
+	products.forEach((product) => {
 		const card = createProductCard(product);
 		productContainer.appendChild(card);
-	})
+	});
+
 	
 	
 	// Function to add product cards to the page 
 	function createProductCard(product) {
 		// Create a new element for the product card
 		const cardDiv = document.createElement("div");
-		
-	
-		// Check if there is a sale
-		const hasSalePrice = product.salePrice !== "";
-		let realPrice = parseFloat(product.price.replace("$", "").split(" - ")[0]);
-
-		// Calculate the sale percentage
-		let salePercentage = "";
-		if (hasSalePrice) {
-			const regularPrice = parseFloat(product.price.replace("$", "").split(" - ")[0]);
-			const salePrice = parseFloat(product.salePrice.replace("$", ""));
-			const discount = regularPrice - salePrice;
-			salePercentage = `${((discount / regularPrice) * 100).toFixed(0)}% Off!`;
-			realPrice-=discount;
-		}
 		
 		// Populate the card with product data
 		cardDiv.innerHTML = `
@@ -116,12 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				<div class="card-body p-4">
 					<div class="text-center">
 						<h5 class="fw-bolder">${product.name}</h5>
-						<p>
-							${hasSalePrice
-								? `<del>${product.price}</del> ${product.salePrice}`
-								: product.price}
-						</p>
-						${hasSalePrice ? `<p class="text-danger">${salePercentage}</p>` : ""}
+						<p> ${product.price} </p>
 					</div>
 				</div>
 				<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
